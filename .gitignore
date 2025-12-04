@@ -1,0 +1,22 @@
+# Env
+.env
+.env.local
+
+# Logs
+*.log
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker junk
+*.pid
+*.seed
+*.tar
+
+# OS trash
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
