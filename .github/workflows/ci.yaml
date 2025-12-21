@@ -1,0 +1,33 @@
+name: CI Pipeline
+
+on: 
+  push: 
+    branches:
+      -main
+  pull_request:
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: setup docker buildx
+      uses: docker/setup-buildx-actions@v2
+    - name: login innto dockerhub
+      uses: docker/docker-login-actions@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: build backend image
+      run: |
+        docker build -t ${{secrets.DOCKERHUB_USERNAME}}/expense-backend:latest  ./backend
+    - name: build frontend image
+      run: |
+        docker build -t ${{secrets.DOCKERHUB_USERNAME}}/expense-frontend:latest ./frontend
+    - name: push backend image
+      run: |
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/expense-backend:latest
+    - name: push frontend image
+      run: |
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/expense-frontend:latest
